@@ -223,12 +223,225 @@
 
 // 同步读取文件
 
-var fs = require('fs');
-try {
-    var data = fs.readFileSync('./index.txt','utf-8');
-    // 等待操作返回结果，然后利用该结果
-    console.log(data)   
-} catch(e) {
-    console.log(e);
-}
+// var fs = require('fs');
+// try {
+//     var data = fs.readFileSync('./index.txt','utf-8');
+//     // 等待操作返回结果，然后利用该结果
+//     console.log(data)   
+// } catch(e) {
+//     console.log(e);
+// }
+
+// 异步写入文件
+// var fs = require('fs');
+// fs.writeFile('./message.txt','我叫饭饭。can you see me now ？',function(err){
+//     if(err){
+//         console.log('写文件操作失败。')
+//     }else {
+//         console.log('写文件操作成功。')
+//     }
+// })
+
+// 写入图片
+// var fs = require('fs');
+// fs.readFile('./a.jpg', 'base64', function(err,data){
+//     fs.writeFile('./b.jpg',data.toString(),'base64',function(err){
+//         if(err){
+//             console.log('写文件操作失败')
+//         }else {
+//             console.log('写文件操作成功')
+//         }
+//     })
+// });
+
+// 同步写入文件 fs.writeFileSync(path, data, options); // 参数与上面含义一致
+
+//异步追加文件
+// var fs = require('fs');
+// fs.appendFile('./message.txt', '这是追加的数据', 'utf-8', function(err){
+//     if(err){
+//         console.log('追加文件失败')
+//     }else {
+//         console.log('追加文件成功')
+//     }
+// });
+
+// 同步追加文件
+// var fs = require('fs');
+// fs.appendFileSync('./message.txt', '我才是追加的数据');
+
+// 异步打开文件
+// var fs = require('fs')
+// fs.open('./message.txt','r', function(err,fd){
+//    console.log(fd)
+// })
+// 同步打开文件
+// var fs = require('fs')
+// var a = fs.openSync('./message.txt','r');
+// console.log(a)
+
+// 异步读取文件
+// var fs = require('fs')
+// fs.open('./message.txt','r', function(err,fd){
+//     var buf = Buffer.alloc(1024);
+//     // 一个汉字的utf编码为三个字节数据
+//     fs.read(fd,buf,0,9,3,function(err,bytesRead,buffer){
+//         if (err) {
+//             console.log("err")
+//         }else {
+//             console.log(buffer.slice(0, bytesRead).toString())          
+//         }
+//     })  
+// })
+// 同步读取文件
+// var fs = require('fs')
+// fs.open('./message.txt','r', function(err,fd){
+//     var buf = Buffer.alloc(255);
+//     // 一个汉字的utf编码为三个字节数据
+//     var bytesRead = fs.readSync(fd,buf,0,9,3);
+//     console.log(bytesRead);
+//     console.log(buf.slice(0, bytesRead).toString());        
+// })
+
+// 异步写入文件
+// var fs = require('fs')
+// var buf = Buffer.from('我叫饭饭');
+// fs.open('./message.txt','w', function(err,fd){
+//     fs.write(fd,buf,3,9,0,function(err,written,buffer){
+//         if(err){
+//             console.log('文件写入失败')
+//         }else{
+//             console.log('写入文件成功')
+//         }
+//     })  
+// })
+
+// 异步关闭文件
+// var fs = require('fs')
+// var buf = Buffer.from('我叫饭饭');
+// fs.open('./message.txt','w', function(err,fd){
+//     fs.write(fd,buf,0,12,0,function(err,written,buffer){
+//         if(err){
+//             console.log('文件写入失败')
+//         }else{
+//             console.log('写入文件成功')
+//         }
+//     fs.close(fd,function(err){
+//         if(err){
+//             console.log('关闭文件失败')
+//         }else{
+//             console.log('关闭文件成功')
+//         }
+//     })
+//     })  
+// })
+
+// var fs = require('fs')
+// var buf = Buffer.from('我叫饭饭');
+// fs.open('./message.txt','w', function(err,fd){
+//     fs.write(fd,buf,0,9,0,function(err,written,buffer){
+//         if(err){
+//             console.log('文件写入失败')
+//         }else{
+//             console.log('写入文件成功')
+//         }
+//     fs.fsync(fd,function(err){
+//         if(err){
+//             console.log('失败')
+//         }else{
+//             console.log('成功')
+//         }
+//     })
+//     fs.close(fd,function(err){
+//         if(err){
+//             console.log('关闭文件失败')
+//         }else{
+//             console.log('关闭文件成功')
+//         }
+//     })
+//     })  
+// })
+
+// 查看文件字节
+// var fs = require('fs')
+// fs.stat('./message.txt',function(err,data){
+//     console.log(data)
+// })
+
+// 递归删除非空目录
+// var fs = require('fs')
+// function deldir(path) {
+//     if( fs.existsSync(path) ) {
+//         fs.readdirSync(path).forEach(function(file) {
+//             var curPath = path + "/" + file;
+//             if(fs.statSync(curPath).isDirectory()) { // recurse
+//                 deleteFolderRecursive(curPath);
+//             } else { // delete file
+//                 fs.unlinkSync(curPath);
+//             }
+//         });
+//         fs.rmdirSync(path);
+//     }
+// };
+// var fs = require('fs')
+// function deldir(path) {
+// 	// 是否存在这样的路径
+//     if( fs.existsSync(path) ) {
+//     	// 读取并循环这个文件列表
+//         fs.readdirSync(path).forEach(function(file) {
+//         	// 拼接当前文件路径与文件
+//             var curPath = path + "/" + file;
+//             // 如果当前是一个文件
+//             if(fs.statSync(curPath).isFile()) {
+//             	// 删除这个文件
+//                 fs.unlinkSync(curPath);
+//             } else { 
+//             	// 如果是一个目录，递归调用这个方法
+//                 deldir(curPath);
+//             }
+//         });
+//         // 最后，删除空目录
+//         fs.rmdirSync(path);
+//     }
+// };
+// deldir('TypeScript')
+
+// 前面可以使用fs模块的readFile方法，
+// readFileSync方法读取文件中内容，及如何使用fs模块中的writeFile
+// 方法，writeFileSync方法向一个文件中写入内容
+
+// readFile，readFileSync方法读取文件内容时，node.js首先
+// 将文件内容完整的读入缓存区，再从该缓存区中去读文件内容，
+// 在使用writeFile，writeFileSync方法写入文件内容时，node.js将
+// 其视为一个整体，
+// 将该文件内容完整的读入缓存区，然后一次性将缓存区中内容写入文件中。
+
+// 也就是说，node需要在内存中开辟与文件相等大小的空间，如果
+// 文件小，这的确没有问题，但是如果是一个非常大的文件，会出现内存装不下的
+// 情况。
+
+// stream流
+// 应用程序中，流是一组有序的，有起点和终点的字节数据传输方式
+// 在应用程序中各种对象之间交换和传输数据的时候，总是将该对象中
+// 所包含的数据转换为各种形式的流数据（字节数据），在通过流的传输
+// 到达目的对象后再将流数据转换为该对象中可以使用的数据。
+var fs = require('fs')
+// 创建一个可以读取的流
+var stream = fs.createReadStream('./article.txt')
+// 绑定data事件，当读取到内容就执行
+stream.on('data',function(a){
+	console.log(a.length);
+})
+
+stream.on('end',function(a){
+	console.log('数据读取完');
+})
+
+
+
+
+
+
+
+
 
