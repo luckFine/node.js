@@ -420,22 +420,7 @@
 // 文件小，这的确没有问题，但是如果是一个非常大的文件，会出现内存装不下的
 // 情况。
 
-// stream流
-// 应用程序中，流是一组有序的，有起点和终点的字节数据传输方式
-// 在应用程序中各种对象之间交换和传输数据的时候，总是将该对象中
-// 所包含的数据转换为各种形式的流数据（字节数据），在通过流的传输
-// 到达目的对象后再将流数据转换为该对象中可以使用的数据。
-var fs = require('fs')
-// 创建一个可以读取的流
-var stream = fs.createReadStream('./article.txt')
-// 绑定data事件，当读取到内容就执行
-stream.on('data',function(a){
-	console.log(a.length);
-})
 
-stream.on('end',function(a){
-	console.log('数据读取完');
-})
 
 
 
