@@ -84,20 +84,20 @@
 // finish:调用 stream.end() 且缓冲数据都已传给底层系统之后触发。
 
 
-var fs = require('fs')
-var data = '肯德基'
-// 创建一个可以写入的流
-var stream = fs.createWriteStream('./../food.txt');
-// 使用utf-8编码写入数据
-stream.write(data,"UTF8");
-// 标记写入完成
-stream.end()
-stream.on('finish',function(){
-	console.log("写入完成");
-})
-stream.on('error',function(){
-	console.log("写入错误");
-})
+// var fs = require('fs')
+// var data = '肯德基'
+// // 创建一个可以写入的流
+// var stream = fs.createWriteStream('./../food.txt');
+// // 使用utf-8编码写入数据
+// stream.write(data,"UTF8");
+// // 标记写入完成
+// stream.end()
+// stream.on('finish',function(){
+// 	console.log("写入完成");
+// })
+// stream.on('error',function(){
+// 	console.log("写入错误");
+// })
 
 
 // 管道
@@ -114,13 +114,13 @@ stream.on('error',function(){
 
 // 接下来我们用管道和链式流压缩和解压文件
 
-// var fs = require('fs')
-// var zlib = require('zlib')
-// // 压缩foot.txt文件为foot.txt.gz
-// fs.createReadStream('./../food.txt')
-// 	.pipe(zlib.createGzip())
-// 	.pipe(fs.createWriteStream('./../foot.txt.gz'))
-// console.log("文件压缩完成");	
+var fs = require('fs')
+var zlib = require('zlib')
+// 压缩foot.txt文件为foot.txt.gz
+fs.createReadStream('./../food.txt')
+	.pipe(zlib.createGzip())
+	.pipe(fs.createWriteStream('./../foot.txt.gz'))
+console.log("文件压缩完成");	
 
 
 
