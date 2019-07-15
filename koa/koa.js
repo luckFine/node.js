@@ -41,32 +41,32 @@
 //         err.expose = true;
 //         throw err;
 
-以下访问器和 Request 别名等效：
-    ctx.header = request.header
-    ctx.headers = request.headers
-    ctx.method = request.method
-    ctx.url = request.url
-    ctx.originalUrl = request.originalUrl
-    ctx.origin = request.origin
-    ctx.href = request.href
-    ctx.path = request.path
-    ctx.querystring = request.querystring
-    ctx.host = request.host
-    ctx.hostname = request.hostname
-    ctx.fresh = request.fresh
-    ctx.stale = request.stale
-    ctx.socket
-    ctx.protocol
-    ctx.secure
-    ctx.ip
-    ctx.ips
-    ctx.subdomains
-    ctx.is()
-    ctx.accepts()
-    ctx.acceptsEncodings()
-    ctx.acceptsCharsets()
-    ctx.acceptsLanguages()
-    ctx.get(）
+// ctx以下访问器和 Request 别名等效：
+//     ctx.header = request.header
+//     ctx.headers = request.headers
+//     ctx.method = request.method
+//     ctx.url = request.url
+//     ctx.originalUrl = request.originalUrl
+//     ctx.origin = request.origin
+//     ctx.href = request.href
+//     ctx.path = request.path
+//     ctx.querystring = request.querystring
+//     ctx.host = request.host
+//     ctx.hostname = request.hostname
+//     ctx.fresh = request.fresh
+//     ctx.stale = request.stale
+//     ctx.socket
+//     ctx.protocol
+//     ctx.secure
+//     ctx.ip
+//     ctx.ips
+//     ctx.subdomains
+//     ctx.is()
+//     ctx.accepts()
+//     ctx.acceptsEncodings()
+//     ctx.acceptsCharsets()
+//     ctx.acceptsLanguages()
+//     ctx.get(）
 // Response 别名
 //     ctx.body
 //     ctx.body=
@@ -150,24 +150,177 @@
 // koa-static：静态文件服务中间件
 
 
+// http Response
+
+// response.header:响应标头对象。
+// response.socket:请求套接字。
+// response.status:获取响应状态
+// response.message:获取响应的状态消息.
+// response.body:获取响应主体。
+// response.get(field):不区分大小写获取响应标头字段值 field。
+// response.set(field, value):设置响应标头 field 到 value
+// response.redirect(url, [alt]):执行 [302] 重定向到 url.
+
+// const Koa = require('koa');
+// const app = module.exports = new Koa();
+
+// app.use(async function(ctx) {
+//     ctx.response.type = 'html';
+//     ctx.body = '<p>Hello World</p>';
+// });
+// if (!module.parent) app.listen(3000);
+
+
+// 网页模板
+// const fs = require('fs');
+// const Koa = require('koa');
+// const app = new Koa();
+
+// const main = ctx => {
+//     ctx.response.type = 'html';
+//     ctx.response.body = fs.createReadStream('./index.html');
+// };
+
+// app.use(main);
+// app.listen(3000);
+
+
+// 路由
+// 原生路由
+// const Koa = require('koa')
+// const app = new Koa()
+// app.use((ctx, next) => {
+//     //通过ctx.request.url获取用户请求路径
+//     if (ctx.request.url == '/') {
+//         ctx.body = '<h1>首页</h1>'
+//     } else if (ctx.request.url == '/about') {
+//         ctx.body = '<h1>关于</h1>'
+//     } else {
+//         ctx.body = '<h1>404 not found</h1>'
+//     }
+// })
+// app.listen(3000)
+
+// koa-router 模块路由
+// const Koa = require('koa')
+// const Router = require('koa-router')
+
+// const app = new Koa()
+// const router = new Router()
+
+// app.use(router.routes());
+// //.get就是发送的get请求
+// router.get('/',(ctx,next)=>{
+//   ctx.response.body = '<h1>首页</h1>'
+// })
+// router.get('/about',(ctx,next)=>{
+//   ctx.response.body = '<h1>关于</h1>'
+// })
+
+// app.listen(3000)
+
+// 静态资源
+// const Koa = require('koa');
+// const app = new Koa();
+// const path = require('path');
+// const serve = require('koa-static');
+
+// const main = serve(path.join(__dirname));
+
+// app.use(main);
+// app.listen(3000);
+// http://localhost:3000/index.html
+
+
+// 重定向跳转
+// const Koa = require('koa');
+// const Router = require('koa-router');
+// const app = new Koa();
+// const router = new Router()
+
+// app.use(router.routes()).use(router.allowedMethods());
+
+// router.get('/about',(ctx,next)=>{
+//   ctx.response.redirect('/');
+// })
+// router.get('/',(ctx,next)=>{
+//    ctx.body = '首页';
+// })
+
+// app.listen(3000);
+
+
+// 500错误
+// const Koa = require('koa');
+// const app = new Koa();
+
+// const main = ctx => {
+//   ctx.throw(500);
+// };
+
+// app.use(main);
+// app.listen(3000);
+
+
+
+
+// 404错误
+// const Koa = require('koa');
+// const app = new Koa();
+
+// const main = ctx => {
+//   ctx.response.status = 404;
+//   ctx.response.body = 'Page Not Found';
+//   // 以上与ctx.throw(404)效果相同;
+// };
+
+// app.use(main);
+// app.listen(3000);
+
+
+
+// error事件监听
+// const Koa = require('koa');
+// const app = new Koa();
+
+// const main = ctx => {
+//   ctx.throw(500);
+// };
+// app.on('error', (err, ctx) => {
+//   console.error('server error', err);//err是错误源头
+// });
+
+// app.use(main);
+// app.listen(3000);
+
+// 如果错误被try...catch捕获，就不会触发error事件。这时，必须调用ctx.app.emit()，手动释放error事件，才能让监听函数生效。
 const Koa = require('koa');
-const app = module.exports = new Koa();
+const app = new Koa();
 
-app.use(async function(ctx) {
-    ctx.body = ctx;
+const handler = async (ctx, next) => {
+    try {
+        await next();
+    } catch (err) {
+        ctx.response.status = err.statusCode || err.status || 500;
+        ctx.response.type = 'html';
+        ctx.response.body = '<p>您要看的页面出错咯</p>';
+        ctx.app.emit('error', err, ctx);//释放error事件
+    }
+};
+
+const main = ctx => {
+    ctx.throw(500);
+};
+
+app.on('error', function (err) {
+    //释放error事件后这里的监听函数才可生效
+    console.log('错误', err.message);
+    console.log(err);
 });
-if (!module.parent) app.listen(3000);
 
-
-
-
-
-
-
-
-
-
-
+app.use(handler);
+app.use(main);
+app.listen(3000);
 
 
 
