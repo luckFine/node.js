@@ -294,38 +294,71 @@
 // app.listen(3000);
 
 // 如果错误被try...catch捕获，就不会触发error事件。这时，必须调用ctx.app.emit()，手动释放error事件，才能让监听函数生效。
+// const Koa = require('koa');
+// const app = new Koa();
+
+// const handler = async (ctx, next) => {
+//     try {
+//         await next();
+//     } catch (err) {
+//         ctx.response.status = err.statusCode || err.status || 500;
+//         ctx.response.type = 'html';
+//         ctx.response.body = '<p>您要看的页面出错咯</p>';
+//         ctx.app.emit('error', err, ctx);//释放error事件
+//     }
+// };
+
+// const main = ctx => {
+//     ctx.throw(500);
+// };
+
+// app.on('error', function (err) {
+//     //释放error事件后这里的监听函数才可生效
+//     console.log('错误', err.message);
+//     console.log(err);
+// });
+
+// app.use(handler);
+// app.use(main);
+// app.listen(3000);
+
+
+
+
+
+// cookie
+// const Koa = require('koa');
+// const app = new Koa();
+
+// const main = function(ctx) {
+//   const n = 'luckfine'
+//   ctx.cookies.set('user', n);
+//   ctx.response.body = 'user is :' + n;
+//   setTimeout(() => {
+//     console.log(ctx.cookies.get('user'))
+//   },5000)
+// }
+
+// app.use(main);
+// app.listen(3000);
+
+
+// 表单
 const Koa = require('koa');
+const koaBody = require('koa-body');
 const app = new Koa();
 
-const handler = async (ctx, next) => {
-    try {
-        await next();
-    } catch (err) {
-        ctx.response.status = err.statusCode || err.status || 500;
-        ctx.response.type = 'html';
-        ctx.response.body = '<p>您要看的页面出错咯</p>';
-        ctx.app.emit('error', err, ctx);//释放error事件
-    }
+const main = async function (ctx) {
+    const body = ctx.request.body;
+    if (!body.name){
+        ctx.throw(400, '.name required')
+    };
+    ctx.body = { name: body.name };
 };
 
-const main = ctx => {
-    ctx.throw(500);
-};
-
-app.on('error', function (err) {
-    //释放error事件后这里的监听函数才可生效
-    console.log('错误', err.message);
-    console.log(err);
-});
-
-app.use(handler);
+app.use(koaBody());
 app.use(main);
 app.listen(3000);
-
-
-
-
-
 
 
 
